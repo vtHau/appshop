@@ -13,6 +13,7 @@ import Home from './Home/Home';
 import Contact from './Contact/Contact';
 import Search from './Search/Search';
 import Cart from './Cart/Cart';
+import Header from './Header';
 
 const Tab = createBottomTabNavigator();
 const {height} = Dimensions.get('window');
@@ -26,11 +27,7 @@ function Shop(props) {
 
   return (
     <View style={{flex: 1}}>
-      <View style={{height: height / 10}}>
-        <TouchableOpacity onPress={() => navigation.openDrawer()}>
-          <Text>Menu</Text>
-        </TouchableOpacity>
-      </View>
+      <Header navigation={navigation} />
       <Tab.Navigator
         tabBarOptions={{
           labelStyle: {

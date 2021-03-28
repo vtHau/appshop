@@ -28,3 +28,4 @@ function App() {
 const styles = StyleSheet.create({});
 
 export default App;
+// adb connect 127.0.0.1:21503
