@@ -1,15 +1,17 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
 
 import Collection from './Collection';
 import Category from './Category';
+import TopProduct from './TopProduct';
 
 function Home(props) {
   return (
-    <View style={{flex: 1, backgroundColor: '#ccc'}}>
+    <ScrollView style={{flex: 1, backgroundColor: '#ccc'}}>
       <Collection />
       <Category />
-    </View>
+      <TopProduct />
+    </ScrollView>
   );
 }
 
