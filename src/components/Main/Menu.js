@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View, Image} from 'react-native';
 import {Drawer} from 'react-native-paper';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
+
+import profileIcon from '../../media/temp/profile.png';
 
 function Menu(props) {
   const {navigation} = props;
@@ -23,46 +25,90 @@ function Menu(props) {
     navigation.push('OrderHistory');
   };
 
-  return (
-    <View style={{flex: 1, backgroundColor: '#eee'}}>
-      <DrawerContentScrollView {...props}>
-        <View style={styles.drawerContent}>
-          <Drawer.Section style={styles.drawerSection}>
-            <DrawerItem
-              icon={({color, size}) => (
-                <FontAwesome5 name={'home'} size={20} color={color} />
-              )}
-              label="Authentication"
-              onPress={() => {
-                navigation.navigate('Authentication');
-              }}
-            />
-            <DrawerItem
-              icon={({color, size}) => (
-                <FontAwesome5 name={'home'} size={20} color={color} />
-              )}
-              label="ChangeInfo"
-              onPress={() => {
-                navigation.navigate('ChangeInfo');
-              }}
-            />
-            <DrawerItem
-              icon={({color, size}) => (
-                <FontAwesome5 name={'home'} size={20} color={color} />
-              )}
-              label="OrderHistory"
-              onPress={() => {
-                navigation.navigate('OrderHistory');
-              }}
-            />
-          </Drawer.Section>
+  function Logout() {
+    return (
+      <View style={styles.container}>
+        <Image style={styles.profileImage} source={profileIcon} />
+        <View style={{flex: 1}}>
+          <TouchableOpacity style={styles.btnStyle}>
+            <Text style={styles.btnText}>Dang nhap</Text>
+          </TouchableOpacity>
         </View>
-      </DrawerContentScrollView>
+      </View>
+    );
+  }
+
+  function Login() {
+    return (
+      <View style={styles.container}>
+        <Image style={styles.profileImage} source={profileIcon} />
+        <View style={{flex: 1, alignItems: 'center'}}>
+          <Text style={styles.profileName}>Vo Trung Hau</Text>
+          <View>
+            <TouchableOpacity style={styles.btnStyleSigned}>
+              <Text style={styles.btnTextSigned}>Order History</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.btnStyleSigned}>
+              <Text style={styles.btnTextSigned}>Change Info</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.btnStyleSigned}>
+              <Text style={styles.btnTextSigned}>Sign out</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  const [isLogin, setIsLogin] = useState(false);
+
+  return (
+    <View style={{flex: 1, backgroundColor: '#34b089'}}>
+      {isLogin ? <Login /> : <Logout />}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#34b089',
+    alignItems: 'center',
+  },
+  profileImage: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    marginBottom: 30,
+  },
+  profileName: {
+    color: 'white',
+    fontSize: 20,
+    marginBottom: 50,
+  },
+  btnStyle: {
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    paddingHorizontal: 70,
+    paddingVertical: 15,
+    marginBottom: 15,
+  },
+
+  btnStyleSigned: {
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    marginBottom: 15,
+    justifyContent: 'center',
+    paddingLeft: 20,
+    width: 250,
+    height: 50,
+  },
+  btnText: {
+    color: 'grey',
+  },
+  btnTextSigned: {
+    color: 'grey',
+  },
   drawerContent: {
     flex: 1,
   },
@@ -108,3 +154,39 @@ const styles = StyleSheet.create({
   },
 });
 export default Menu;
+
+{
+  /* <DrawerContentScrollView {...props}>
+        <View style={styles.drawerContent}>
+          <Drawer.Section style={styles.drawerSection}>
+            <DrawerItem
+              icon={({color, size}) => (
+                <FontAwesome5 name={'home'} size={20} color={color} />
+              )}
+              label="Authentication"
+              onPress={() => {
+                navigation.navigate('Authentication');
+              }}
+            />
+            <DrawerItem
+              icon={({color, size}) => (
+                <FontAwesome5 name={'home'} size={20} color={color} />
+              )}
+              label="ChangeInfo"
+              onPress={() => {
+                navigation.navigate('ChangeInfo');
+              }}
+            />
+            <DrawerItem
+              icon={({color, size}) => (
+                <FontAwesome5 name={'home'} size={20} color={color} />
+              )}
+              label="OrderHistory"
+              onPress={() => {
+                navigation.navigate('OrderHistory');
+              }}
+            />
+          </Drawer.Section>
+        </View>
+      </DrawerContentScrollView> */
+}
