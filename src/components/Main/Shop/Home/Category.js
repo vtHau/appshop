@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   ImageBackground,
+  TouchableOpacity,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 
@@ -18,6 +19,12 @@ const imageWidth = width - 50;
 const imageHeight = (imageWidth / 933) * 465;
 
 function Category(props) {
+  const {navigation} = props;
+
+  const goListProduct = () => {
+    navigation.push('ListProduct');
+  };
+
   return (
     <View style={styles.wrapper}>
       <View style={{flex: 1, justifyContent: 'center'}}>
@@ -25,15 +32,21 @@ function Category(props) {
       </View>
       <View style={{flex: 4, padding: 5}}>
         <Swiper>
-          <ImageBackground style={styles.image} source={littleImg}>
-            <Text style={styles.titleImage}>Hello Word</Text>
-          </ImageBackground>
-          <ImageBackground style={styles.image} source={maxiImg}>
-            <Text style={styles.titleImage}>Hello Word</Text>
-          </ImageBackground>
-          <ImageBackground style={styles.image} source={partyImg}>
-            <Text style={styles.titleImage}>Hello Word</Text>
-          </ImageBackground>
+          <TouchableOpacity onPress={goListProduct}>
+            <ImageBackground style={styles.image} source={littleImg}>
+              <Text style={styles.titleImage}>Hello Word</Text>
+            </ImageBackground>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={goListProduct}>
+            <ImageBackground style={styles.image} source={maxiImg}>
+              <Text style={styles.titleImage}>Hello Word</Text>
+            </ImageBackground>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={goListProduct}>
+            <ImageBackground style={styles.image} source={partyImg}>
+              <Text style={styles.titleImage}>Hello Word</Text>
+            </ImageBackground>
+          </TouchableOpacity>
         </Swiper>
       </View>
     </View>

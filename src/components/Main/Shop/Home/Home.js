@@ -1,17 +1,24 @@
 import React from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {createStackNavigator} from '@react-navigation/stack';
 
-import Collection from './Collection';
-import Category from './Category';
-import TopProduct from './TopProduct';
+import ProductDetail from './../ProductDetail/ProductDetail';
+import ListProduct from './../ListProduct/ListProduct';
+import HomeView from './HomeView';
+
+const Stack = createStackNavigator();
 
 function Home(props) {
   return (
-    <ScrollView style={{flex: 1, backgroundColor: '#ccc'}}>
-      <Collection />
-      <Category />
-      <TopProduct />
-    </ScrollView>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+      initialRouteName="HomeView">
+      <Stack.Screen name="HomeView" component={HomeView} />
+      <Stack.Screen name="ListProduct" component={ListProduct} />
+      <Stack.Screen name="ProductDetail" component={ProductDetail} />
+    </Stack.Navigator>
   );
 }
 

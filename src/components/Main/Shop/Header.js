@@ -33,7 +33,7 @@ function Header(props) {
 
 const styles = StyleSheet.create({
   wrapper: {
-    height: height / 10,
+    height: height / 8,
     padding: 10,
     backgroundColor: '#34b089',
     justifyContent: 'space-around',
@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     height: height / 24,
     backgroundColor: '#fff',
     paddingLeft: 12,
+    marginTop: 15,
   },
   title: {
     color: 'white',

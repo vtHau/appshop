@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, Dimensions} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 
 import bannerImage from '../../../../media/temp/banner.jpg';
 
@@ -13,9 +20,9 @@ function Collection(props) {
       <View style={{flex: 1, justifyContent: 'center'}}>
         <Text style={styles.text}>Spring Collection</Text>
       </View>
-      <View style={{flex: 4, padding: 5}}>
+      <TouchableOpacity style={{flex: 4, padding: 5}}>
         <Image style={styles.image} source={bannerImage} />
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }
