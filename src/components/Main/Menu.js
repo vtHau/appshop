@@ -30,7 +30,11 @@ function Menu(props) {
       <View style={styles.container}>
         <Image style={styles.profileImage} source={profileIcon} />
         <View style={{flex: 1}}>
-          <TouchableOpacity style={styles.btnStyle}>
+          <TouchableOpacity
+            style={styles.btnStyle}
+            onPress={() => {
+              navigation.navigate('Authentication');
+            }}>
             <Text style={styles.btnText}>Dang nhap</Text>
           </TouchableOpacity>
         </View>
@@ -45,13 +49,25 @@ function Menu(props) {
         <View style={{flex: 1, alignItems: 'center'}}>
           <Text style={styles.profileName}>Vo Trung Hau</Text>
           <View>
-            <TouchableOpacity style={styles.btnStyleSigned}>
+            <TouchableOpacity
+              style={styles.btnStyleSigned}
+              onPress={() => {
+                navigation.navigate('OrderHistory');
+              }}>
               <Text style={styles.btnTextSigned}>Order History</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.btnStyleSigned}>
+            <TouchableOpacity
+              style={styles.btnStyleSigned}
+              onPress={() => {
+                navigation.navigate('ChangeInfo');
+              }}>
               <Text style={styles.btnTextSigned}>Change Info</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.btnStyleSigned}>
+            <TouchableOpacity
+              style={styles.btnStyleSigned}
+              onPress={() => {
+                navigation.navigate('OrderHistory');
+              }}>
               <Text style={styles.btnTextSigned}>Sign out</Text>
             </TouchableOpacity>
           </View>

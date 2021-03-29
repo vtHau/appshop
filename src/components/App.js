@@ -15,7 +15,8 @@ function App() {
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
-        }}>
+        }}
+        initialRouteName="Main">
         <Stack.Screen name="Main" component={Main} />
         <Stack.Screen name="Authentication" component={Authentication} />
         <Stack.Screen name="ChangeInfo" component={ChangeInfo} />
