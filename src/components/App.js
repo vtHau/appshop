@@ -18,6 +18,9 @@ function App() {
         }}
         initialRouteName="Main">
         <Stack.Screen name="Main" component={Main} />
+        <Stack.Screen name="Authentication" component={Authentication} />
+        <Stack.Screen name="ChangeInfo" component={ChangeInfo} />
+        <Stack.Screen name="OrderHistory" component={OrderHistory} />
       </Stack.Navigator>
     </NavigationContainer>
   );
