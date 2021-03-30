@@ -9,7 +9,7 @@ import HomeView from './HomeView';
 const Stack = createStackNavigator();
 
 function Home(props) {
-  const {type, navigation} = props;
+  const {type, navigation, topProduct} = props;
 
   return (
     <Stack.Navigator
@@ -18,7 +18,13 @@ function Home(props) {
       }}
       initialRouteName="HomeView">
       <Stack.Screen name="HomeView">
-        {props => <HomeView navigation={navigation} type={type} />}
+        {props => (
+          <HomeView
+            navigation={navigation}
+            topProduct={topProduct}
+            type={type}
+          />
+        )}
       </Stack.Screen>
       <Stack.Screen name="ListProduct" component={ListProduct} />
       <Stack.Screen name="ProductDetail" component={ProductDetail} />

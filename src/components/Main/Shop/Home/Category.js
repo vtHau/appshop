@@ -8,11 +8,8 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
-import Swiper from 'react-native-swiper';
 
-import littleImg from '../../../../media/temp/little.jpg';
-import maxiImg from '../../../../media/temp/maxi.jpg';
-import partyImg from '../../../../media/temp/party.jpg';
+import Swiper from 'react-native-swiper';
 
 const {height, width} = Dimensions.get('window');
 const imageWidth = width - 50;
