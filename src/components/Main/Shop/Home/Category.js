@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -17,10 +17,10 @@ import partyImg from '../../../../media/temp/party.jpg';
 const {height, width} = Dimensions.get('window');
 const imageWidth = width - 50;
 const imageHeight = (imageWidth / 933) * 465;
+const urlImg = 'http://192.168.1.4/app/images/type/';
 
 function Category(props) {
-  const {navigation} = props;
-
+  const {navigation, type} = props;
   const goListProduct = () => {
     navigation.push('ListProduct');
   };
@@ -31,22 +31,18 @@ function Category(props) {
         <Text style={styles.text}>Spring Category</Text>
       </View>
       <View style={{flex: 4, padding: 5}}>
-        <Swiper>
-          <TouchableOpacity onPress={goListProduct}>
-            <ImageBackground style={styles.image} source={littleImg}>
-              <Text style={styles.titleImage}>Hello Word</Text>
-            </ImageBackground>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={goListProduct}>
-            <ImageBackground style={styles.image} source={maxiImg}>
-              <Text style={styles.titleImage}>Hello Word</Text>
-            </ImageBackground>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={goListProduct}>
-            <ImageBackground style={styles.image} source={partyImg}>
-              <Text style={styles.titleImage}>Hello Word</Text>
-            </ImageBackground>
-          </TouchableOpacity>
+        <Swiper autoplay autoplayTimeout={2.5}>
+          {type.map((value, key) => (
+            <TouchableOpacity key={value.id} onPress={goListProduct}>
+              <ImageBackground
+                style={styles.image}
+                source={{
+                  uri: `${urlImg}${value.image}`,
+                }}>
+                <Text style={styles.titleImage}>{value.name}</Text>
+              </ImageBackground>
+            </TouchableOpacity>
+          ))}
         </Swiper>
       </View>
     </View>

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
   Dimensions,
+  Button,
 } from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -20,6 +21,22 @@ const {height} = Dimensions.get('window');
 
 function Shop(props) {
   const {navigation} = props;
+  const [type, setType] = useState([]);
+
+  useEffect(() => {
+    async function fetchPostList() {
+      try {
+        const response = await fetch('http://192.168.1.4/app/');
+        const responseJSON = await response.json();
+        const {type} = responseJSON;
+        setType(type);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    fetchPostList();
+  }, []);
 
   const goBackMain = () => {
     navigation.pop();
@@ -38,14 +55,14 @@ function Shop(props) {
         }}>
         <Tab.Screen
           name="Home"
-          component={Home}
           options={{
             tabBarLabel: 'Trang chu',
             tabBarIcon: ({color}) => (
               <FontAwesome5 name={'home'} size={20} color={color} />
             ),
-          }}
-        />
+          }}>
+          {props => <Home navigation={navigation} type={type} />}
+        </Tab.Screen>
         <Tab.Screen
           name="Cart"
           component={Cart}
