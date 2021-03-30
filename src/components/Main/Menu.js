@@ -76,7 +76,7 @@ function Menu(props) {
     );
   }
 
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
 
   return (
     <View style={{flex: 1, backgroundColor: '#34b089'}}>
