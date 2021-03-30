@@ -8,12 +8,6 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
-import Swiper from 'react-native-swiper';
-
-import sp1 from '../../../../media/temp/sp1.jpeg';
-import sp2 from '../../../../media/temp/sp2.jpeg';
-import sp3 from '../../../../media/temp/sp3.jpeg';
-import sp4 from '../../../../media/temp/sp4.jpeg';
 
 const {height, width} = Dimensions.get('window');
 const productWidth = (width - 50) / 2;
@@ -23,8 +17,8 @@ const urlImg = 'http://192.168.1.4/app/images/product/';
 function TopProduct(props) {
   const {navigation, topProduct} = props;
 
-  const gotDetail = () => {
-    navigation.push('ProductDetail');
+  const gotDetail = product => {
+    navigation.push('ProductDetail', product);
   };
 
   return (
@@ -37,7 +31,7 @@ function TopProduct(props) {
           <TouchableOpacity
             key={key}
             style={styles.productContainer}
-            onPress={gotDetail}>
+            onPress={() => gotDetail(value)}>
             <Image
               style={styles.productImage}
               source={{uri: `${urlImg}${value.images[0]}`}}

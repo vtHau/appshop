@@ -9,14 +9,14 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import img1 from '../../../../media/temp/sp5.jpeg';
-import img2 from '../../../../media/temp/sp4.jpeg';
-
 const back = require('../../../../media/appIcon/back.png');
 const cart = require('../../../../media/appIcon/cartfull.png');
 
+const urlImg = 'http://192.168.1.4/app/images/product/';
+
 function ProductDetail(props) {
-  const {navigation} = props;
+  const {navigation, route} = props;
+  const product = route.params;
 
   const goBack = () => {
     navigation.pop();
@@ -57,39 +57,40 @@ function ProductDetail(props) {
           <ScrollView
             style={{flexDirection: 'row', padding: 10, height: swiperHeight}}
             horizontal>
-            <Image source={img1} style={productImageStyle} />
-            <Image source={img2} style={productImageStyle} />
+            <Image
+              source={{uri: `${urlImg}${product.images[0]}`}}
+              style={productImageStyle}
+            />
+            <Image
+              source={{uri: `${urlImg}${product.images[1]}`}}
+              style={productImageStyle}
+            />
           </ScrollView>
         </View>
         <View style={footer}>
           <View style={titleContainer}>
             <Text style={textMain}>
-              <Text style={textBlack}>{'back of the'.toUpperCase()}</Text>
+              <Text style={textBlack}>{product.name.toUpperCase()}</Text>
               <Text style={textHighlight}> / </Text>
-              <Text style={textSmoke}>100$</Text>
+              <Text style={textSmoke}>{product.price}$</Text>
             </Text>
           </View>
           <View style={descContainer}>
-            <Text style={descStyle}>
-              A delicate layer of eyelash lace brings dreamy elegance to this
-              piece, while smooth, lightweight lining feels luxurious against
-              your skin. We love it with heels for a look that fits in on date
-              night, or with cool booties to add an edge.
-            </Text>
+            <Text style={descStyle}>{product.description}</Text>
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 paddingTop: 15,
               }}>
-              <Text style={txtMaterial}>Material Fur</Text>
+              <Text style={txtMaterial}>{product.material}</Text>
               <View style={{flexDirection: 'row'}}>
-                <Text style={txtColor}>Color Black</Text>
+                <Text style={txtColor}>{product.color}</Text>
                 <View
                   style={{
                     height: 15,
                     width: 15,
-                    backgroundColor: 'black'.toLowerCase(),
+                    backgroundColor: `${product.color}`.toLowerCase(),
                     borderRadius: 15,
                     marginLeft: 10,
                     borderWidth: 1,
