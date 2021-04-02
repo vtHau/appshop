@@ -9,23 +9,13 @@ import HomeView from './HomeView';
 const Stack = createStackNavigator();
 
 function Home(props) {
-  const {type, navigation, topProduct} = props;
-
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}
       initialRouteName="HomeView">
-      <Stack.Screen name="HomeView">
-        {props => (
-          <HomeView
-            navigation={navigation}
-            topProduct={topProduct}
-            type={type}
-          />
-        )}
-      </Stack.Screen>
+      <Stack.Screen name="HomeView" component={HomeView} />
       <Stack.Screen name="ListProduct" component={ListProduct} />
       <Stack.Screen name="ProductDetail" component={ProductDetail} />
     </Stack.Navigator>

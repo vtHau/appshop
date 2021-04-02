@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -9,15 +9,26 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import {useSelector, useDispatch, useReducer} from 'react-redux';
+import {fetchCateRequest} from './../../../../actions/actions';
+import * as Config from './../../../../Config/config';
+
 import Swiper from 'react-native-swiper';
 
 const {height, width} = Dimensions.get('window');
 const imageWidth = width - 50;
 const imageHeight = (imageWidth / 933) * 465;
-const urlImg = 'http://192.168.1.4/app/images/type/';
-
+const URLImgae = Config.API_URL + Config.URL_IMAGE_CATE;
 function Category(props) {
-  const {navigation, type} = props;
+  const {navigation} = props;
+
+  const cate = useSelector(state => state.cateReducer.cate);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCateRequest());
+  }, [dispatch]);
+
   const goListProduct = () => {
     navigation.push('ListProduct');
   };
@@ -29,12 +40,12 @@ function Category(props) {
       </View>
       <View style={{flex: 4, padding: 5}}>
         <Swiper autoplay autoplayTimeout={2.5}>
-          {type.map((value, key) => (
+          {cate.map((value, key) => (
             <TouchableOpacity key={value.id} onPress={goListProduct}>
               <ImageBackground
                 style={styles.image}
                 source={{
-                  uri: `${urlImg}${value.image}`,
+                  uri: `${URLImgae}${value.image}`,
                 }}>
                 <Text style={styles.titleImage}>{value.name}</Text>
               </ImageBackground>

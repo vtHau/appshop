@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -9,13 +9,23 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-const {height, width} = Dimensions.get('window');
+import {useSelector, useDispatch} from 'react-redux';
+import {fetchTopProductRequest} from './../../../../actions/actions';
+import * as Config from './../../../../Config/config';
+const {width} = Dimensions.get('window');
 const productWidth = (width - 50) / 2;
 const productHeight = (productWidth / 361) * 452;
-const urlImg = 'http://192.168.1.4/app/images/product/';
+const URLImage = Config.API_URL + Config.URL_IMAGE_PRODUCT;
 
 function TopProduct(props) {
-  const {navigation, topProduct} = props;
+  const {navigation} = props;
+
+  const topProduct = useSelector(state => state.topProductReducer.topProduct);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchTopProductRequest());
+  }, [dispatch]);
 
   const gotDetail = product => {
     navigation.push('ProductDetail', product);
@@ -34,7 +44,7 @@ function TopProduct(props) {
             onPress={() => gotDetail(value)}>
             <Image
               style={styles.productImage}
-              source={{uri: `${urlImg}${value.images[0]}`}}
+              source={{uri: `${URLImage}${value.images[0]}`}}
             />
             <Text style={styles.productName}>{value.name}</Text>
             <Text style={styles.productPrice}>{value.price}</Text>

@@ -7,6 +7,10 @@ import {
   Dimensions,
   Button,
 } from 'react-native';
+
+import {useSelector, useDispatch} from 'react-redux';
+import {addCate} from '../../../actions/actions';
+
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
@@ -21,24 +25,6 @@ const {height} = Dimensions.get('window');
 
 function Shop(props) {
   const {navigation} = props;
-  const [type, setType] = useState([]);
-  const [topProduct, setTopProduct] = useState([]);
-
-  useEffect(() => {
-    async function fetchPostList() {
-      try {
-        const response = await fetch('http://192.168.1.4/app/');
-        const responseJSON = await response.json();
-        const {type, product} = responseJSON;
-        setType(type);
-        setTopProduct(product);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    fetchPostList();
-  }, []);
 
   const goBackMain = () => {
     navigation.pop();
@@ -57,16 +43,14 @@ function Shop(props) {
         }}>
         <Tab.Screen
           name="Home"
+          component={Home}
           options={{
             tabBarLabel: 'Trang chu',
             tabBarIcon: ({color}) => (
               <FontAwesome5 name={'home'} size={20} color={color} />
             ),
-          }}>
-          {props => (
-            <Home navigation={navigation} type={type} topProduct={topProduct} />
-          )}
-        </Tab.Screen>
+          }}
+        />
         <Tab.Screen
           name="Cart"
           component={Cart}

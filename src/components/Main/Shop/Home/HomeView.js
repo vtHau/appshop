@@ -6,13 +6,13 @@ import Category from './Category';
 import TopProduct from './TopProduct';
 
 function Home(props) {
-  const {navigation, type, topProduct} = props;
+  const {navigation} = props;
 
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#ccc'}}>
       <Collection navigation={navigation} />
-      <Category navigation={navigation} type={type} />
-      <TopProduct navigation={navigation} topProduct={topProduct} />
+      <Category navigation={navigation} />
+      <TopProduct navigation={navigation} />
     </ScrollView>
   );
 }
