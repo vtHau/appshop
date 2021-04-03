@@ -8,6 +8,8 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
+import {addCart} from './../../../../actions/actions';
 
 const back = require('../../../../media/appIcon/back.png');
 const cart = require('../../../../media/appIcon/cartfull.png');
@@ -16,7 +18,12 @@ const urlImg = 'http://192.168.1.4/app/images/product/';
 
 function ProductDetail(props) {
   const {navigation, route} = props;
+  const dispatch = useDispatch();
   const product = route.params;
+
+  const insertCart = () => {
+    dispatch(addCart(product));
+  };
 
   const goBack = () => {
     navigation.pop();
@@ -49,7 +56,7 @@ function ProductDetail(props) {
           <TouchableOpacity onPress={() => goBack()}>
             <Image style={backStyle} source={back} />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={insertCart}>
             <Image style={cartStyle} source={cart} />
           </TouchableOpacity>
         </View>

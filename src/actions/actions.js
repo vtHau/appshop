@@ -36,3 +36,17 @@ export const addCate = cate => {
     payload: cate,
   };
 };
+
+export const addCart = product => {
+  return {
+    type: 'ADD_CART',
+    payload: product,
+  };
+};
+
+export const deleteProductFromCart = id => {
+  return {
+    type: 'DELETE_PRODUCT_FROM_CART',
+    payload: id,
+  };
+};
