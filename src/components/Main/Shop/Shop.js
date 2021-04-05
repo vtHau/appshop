@@ -9,8 +9,7 @@ import {
 } from 'react-native';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {addCate} from '../../../actions/actions';
-
+import CallAPI from './../../../utils/CallAPI';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 

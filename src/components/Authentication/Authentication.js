@@ -6,15 +6,19 @@ import {
   View,
   Image,
   TextInput,
+  Alert,
 } from 'react-native';
 
 import icLogo from '../../media/appIcon/ic_logo.png';
 import icBack from '../../media/appIcon/back_white.png';
-import {set} from 'react-native-reanimated';
+import CallAPI from './../../utils/CallAPI';
 
 function Authentication(props) {
   const {navigation} = props;
   const [isAccount, setIsAccount] = useState(true);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const signIn = () => {
     setIsAccount(true);
@@ -46,23 +50,73 @@ function Authentication(props) {
   function SignUpJSX() {
     return (
       <View>
-        <TextInput style={styles.inputStyle} placeholder="Nhap ho va ten" />
-        <TextInput style={styles.inputStyle} placeholder="Ten dang nhap..." />
-        <TextInput style={styles.inputStyle} placeholder="Mat khau..." />
         <TextInput
           style={styles.inputStyle}
-          placeholder="Nhap lai mat khau..."
+          onChangeText={inFullName => setName(inFullName)}
+          placeholder="Nhap ho ten"
+          value={name}
         />
-        <TextInput style={styles.inputStyle} placeholder="Nhap so dien thoai" />
+        <TextInput
+          style={styles.inputStyle}
+          value={email}
+          onChangeText={email => setEmail(email)}
+          placeholder="Email"
+        />
+
+        <TextInput
+          style={styles.inputStyle}
+          value={password}
+          onChangeText={password => setPassword(password)}
+          placeholder="mat khau..."
+        />
         <TextInput style={styles.inputStyle} placeholder="Nhap dia chi Email" />
-        <TextInput style={styles.inputStyle} placeholder="Nhap gioi tinh" />
-        <TouchableOpacity style={styles.signInNow}>
+        <TouchableOpacity style={styles.signInNow} onPress={signUpNow}>
           <Text style={styles.textSignNow}>Sign Up Now</Text>
         </TouchableOpacity>
       </View>
     );
   }
 
+  signUpNow = () => {
+    const user = {
+      name,
+      email,
+      password,
+    };
+
+    CallAPI('/register.php', 'POST', user).then(res => {
+      if (res.data === 'THANH_CONG') return signUpSuccess();
+      signUpFail();
+    });
+  };
+
+  signUpSuccess = () => {
+    Alert.alert(
+      'Thong bao',
+      'Dang ky thanh cong',
+      [
+        {
+          text: 'OK',
+          onPress: () => console.log('ask me laster press'),
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+
+  signUpFail = () => {
+    Alert.alert(
+      'Thong bao',
+      'Email da duoc su dung',
+      [
+        {
+          text: 'OK',
+          onPress: () => setEmail(''),
+        },
+      ],
+      {cancelable: false},
+    );
+  };
   return (
     <View style={styles.container}>
       <View style={styles.feature}>
