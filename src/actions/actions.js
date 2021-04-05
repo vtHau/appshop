@@ -1,4 +1,5 @@
 import CallAPI from './../utils/CallAPI';
+import readStorage from './../utils/readStorage';
 
 export const fetchCateRequest = () => {
   return dispatch => {
@@ -27,6 +28,21 @@ export const fetchTopProduct = topProduct => {
   return {
     type: 'FETCH_TOP_PRODUCT',
     payload: topProduct,
+  };
+};
+
+export const fetchCartFromAsyncStorage = () => {
+  return dispatch => {
+    readStorage('cart').then(res => {
+      dispatch(fetchCart(res));
+    });
+  };
+};
+
+export const fetchCart = cart => {
+  return {
+    type: 'FETCH_CART',
+    payload: cart,
   };
 };
 

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect} from 'react';
 import {
   View,
   Text,
@@ -9,13 +9,18 @@ import {
   Image,
 } from 'react-native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import readStorage from './.././../../../utils/readStorage';
+import writeStorage from './.././../../../utils/writeStorage';
 import {useSelector, useDispatch} from 'react-redux';
-import {updateCart, deleteProductFromCart} from './../../../../actions/actions';
+import {
+  fetchCartFromAsyncStorage,
+  updateCart,
+  deleteProductFromCart,
+} from './../../../../actions/actions';
 
 import * as Config from './../../../../Config/config';
 const URLImage = Config.API_URL + Config.URL_IMAGE_PRODUCT;
-
-import sp1 from '../../.././../media/temp/sp1.jpeg';
 
 function toTitleCase(str) {
   return str.replace(
@@ -25,14 +30,15 @@ function toTitleCase(str) {
 }
 
 function CartView(props) {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCartFromAsyncStorage());
+  }, [dispatch]);
+
   const {navigation} = props;
 
-  const dispatch = useDispatch();
   const cart = useSelector(state => state.cartReducer.cart);
-
-  const gotoDetail = () => {
-    navigation.push('ProducDetail');
-  };
 
   increaseProduct = product => {
     const newProduct = {
@@ -43,11 +49,13 @@ function CartView(props) {
   };
 
   decreaseProduct = product => {
-    const newProduct = {
-      ...product,
-      quantity: product.quantity - 1,
-    };
-    dispatch(updateCart(newProduct));
+    if (product.quantity - 1 > 0) {
+      const newProduct = {
+        ...product,
+        quantity: product.quantity - 1,
+      };
+      dispatch(updateCart(newProduct));
+    }
   };
 
   deleteProduct = id => {
@@ -89,7 +97,12 @@ function CartView(props) {
                   }}>
                   <Text style={txtName}>{toTitleCase(value.name)}</Text>
                   <TouchableOpacity onPress={() => deleteProduct(value.id)}>
-                    <Text style={{fontFamily: 'Avenir', color: '#969696'}}>
+                    <Text
+                      style={{
+                        fontFamily: 'Avenir',
+                        color: '#969696',
+                        padding: 6,
+                      }}>
                       X
                     </Text>
                   </TouchableOpacity>
@@ -107,7 +120,9 @@ function CartView(props) {
                       <Text style={{padding: 10}}> -</Text>
                     </TouchableOpacity>
                   </View>
-                  <TouchableOpacity style={showDetailContainer}>
+                  <TouchableOpacity
+                    style={showDetailContainer}
+                    onPress={() => navigation.push('ProductDetail', value)}>
                     <Text style={txtShowDetail}>SHOW DETAILS</Text>
                   </TouchableOpacity>
                 </View>
@@ -172,6 +187,7 @@ const styles = StyleSheet.create({
   },
   productController: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   numberOfProduct: {
     flex: 1,
@@ -194,7 +210,7 @@ const styles = StyleSheet.create({
   },
   txtShowDetail: {
     color: '#C21C70',
-    fontSize: 10,
+    fontSize: 13,
     fontWeight: '400',
     fontFamily: 'Avenir',
     textAlign: 'right',

@@ -1,14 +1,25 @@
+import writeStorage from '../utils/writeStorage';
+
 const initialState = {
   cart: [],
 };
 
 const cartReducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'FETCH_CART': {
+      const initCart = action.payload;
+
+      return {
+        cart: [...initCart],
+      };
+    }
+
     case 'ADD_CART': {
       const index = findProductInCart(state.cart, action.payload.id);
 
       if (index !== -1) {
         state.cart[index].quantity = state.cart[index].quantity + 1;
+        writeStorage('cart', state.cart);
 
         return {
           cart: [...state.cart],
@@ -21,6 +32,7 @@ const cartReducer = (state = initialState, action) => {
       };
 
       state.cart.push(newProduct);
+      writeStorage('cart', state.cart);
 
       return {
         cart: [...state.cart],
@@ -33,6 +45,7 @@ const cartReducer = (state = initialState, action) => {
 
       if (index !== -1) {
         state.cart[index].quantity = quantity;
+        writeStorage('cart', state.cart);
 
         return {
           cart: [...state.cart],
@@ -49,6 +62,8 @@ const cartReducer = (state = initialState, action) => {
       if (index !== -1) {
         newCart.splice(index, 1);
       }
+
+      writeStorage('cart', newCart);
       return {
         cart: [...newCart],
       };
