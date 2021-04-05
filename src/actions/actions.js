@@ -32,6 +32,7 @@ export const fetchTopProduct = topProduct => {
 };
 
 export const fetchCartFromAsyncStorage = () => {
+  
   return dispatch => {
     readStorage('cart').then(res => {
       dispatch(fetchCart(res));

@@ -79,59 +79,67 @@ function CartView(props) {
     showDetailContainer,
   } = styles;
 
+  // var total = cart.reduce((a, b) => a + b);
+  var total = 0;
+  cart.forEach((product, index) => {
+    total += product.price * product.quantity;
+  });
+
   return (
     <View style={wrapper}>
       <ScrollView style={main}>
         {cart &&
-          cart.map((value, key) => (
-            <View key={key} style={product}>
-              <Image
-                source={{uri: `${URLImage}${value.images[0]}`}}
-                style={productImage}
-              />
-              <View style={[mainRight]}>
-                <View
-                  style={{
-                    justifyContent: 'space-between',
-                    flexDirection: 'row',
-                  }}>
-                  <Text style={txtName}>{toTitleCase(value.name)}</Text>
-                  <TouchableOpacity onPress={() => deleteProduct(value.id)}>
-                    <Text
-                      style={{
-                        fontFamily: 'Avenir',
-                        color: '#969696',
-                        padding: 6,
-                      }}>
-                      X
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-                <View>
-                  <Text style={txtPrice}>{value.price}$</Text>
-                </View>
-                <View style={productController}>
-                  <View style={numberOfProduct}>
-                    <TouchableOpacity onPress={() => increaseProduct(value)}>
-                      <Text style={{padding: 10}}>+</Text>
-                    </TouchableOpacity>
-                    <Text style={{padding: 10}}>{value.quantity}</Text>
-                    <TouchableOpacity onPress={() => decreaseProduct(value)}>
-                      <Text style={{padding: 10}}> -</Text>
+          cart.map((value, key) => {
+            return (
+              <View key={key} style={product}>
+                <Image
+                  source={{uri: `${URLImage}${value.images[0]}`}}
+                  style={productImage}
+                />
+                <View style={[mainRight]}>
+                  <View
+                    style={{
+                      justifyContent: 'space-between',
+                      flexDirection: 'row',
+                    }}>
+                    <Text style={txtName}>{toTitleCase(value.name)}</Text>
+                    <TouchableOpacity onPress={() => deleteProduct(value.id)}>
+                      <Text
+                        style={{
+                          fontFamily: 'Avenir',
+                          color: '#969696',
+                          padding: 6,
+                        }}>
+                        X
+                      </Text>
                     </TouchableOpacity>
                   </View>
-                  <TouchableOpacity
-                    style={showDetailContainer}
-                    onPress={() => navigation.push('ProductDetail', value)}>
-                    <Text style={txtShowDetail}>SHOW DETAILS</Text>
-                  </TouchableOpacity>
+                  <View>
+                    <Text style={txtPrice}>{value.price}$</Text>
+                  </View>
+                  <View style={productController}>
+                    <View style={numberOfProduct}>
+                      <TouchableOpacity onPress={() => increaseProduct(value)}>
+                        <Text style={{padding: 10}}>+</Text>
+                      </TouchableOpacity>
+                      <Text style={{padding: 10}}>{value.quantity}</Text>
+                      <TouchableOpacity onPress={() => decreaseProduct(value)}>
+                        <Text style={{padding: 10}}> -</Text>
+                      </TouchableOpacity>
+                    </View>
+                    <TouchableOpacity
+                      style={showDetailContainer}
+                      onPress={() => navigation.push('ProductDetail', value)}>
+                      <Text style={txtShowDetail}>SHOW DETAILS</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
-            </View>
-          ))}
+            );
+          })}
       </ScrollView>
       <TouchableOpacity style={checkoutButton}>
-        <Text style={checkoutTitle}>TOTAL {1000}$ CHECKOUT NOW</Text>
+        <Text style={checkoutTitle}>TOTAL {total}$ CHECKOUT NOW</Text>
       </TouchableOpacity>
     </View>
   );
