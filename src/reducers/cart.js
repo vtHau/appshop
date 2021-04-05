@@ -5,17 +5,45 @@ const initialState = {
 const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'ADD_CART': {
-      const newCart = [...state.cart];
-      newCart.push(action.payload);
+      const index = findProductInCart(state.cart, action.payload.id);
+
+      if (index !== -1) {
+        state.cart[index].quantity = state.cart[index].quantity + 1;
+
+        return {
+          cart: [...state.cart],
+        };
+      }
+
+      const newProduct = {
+        ...action.payload,
+        quantity: 1,
+      };
+
+      state.cart.push(newProduct);
 
       return {
-        cart: [...newCart],
+        cart: [...state.cart],
       };
+    }
+
+    case 'UPDATE_CART': {
+      const {id, quantity} = action.payload;
+      const index = findProductInCart(state.cart, id);
+
+      if (index !== -1) {
+        state.cart[index].quantity = quantity;
+
+        return {
+          cart: [...state.cart],
+        };
+      }
     }
 
     case 'DELETE_PRODUCT_FROM_CART': {
       const id = action.payload;
       var newCart = [...state.cart];
+
       var index = findProductInCart(newCart, id);
 
       if (index !== -1) {

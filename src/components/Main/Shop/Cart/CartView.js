@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {deleteProductFromCart} from './../../../../actions/actions';
+import {updateCart, deleteProductFromCart} from './../../../../actions/actions';
 
 import * as Config from './../../../../Config/config';
 const URLImage = Config.API_URL + Config.URL_IMAGE_PRODUCT;
@@ -34,7 +34,24 @@ function CartView(props) {
     navigation.push('ProducDetail');
   };
 
-  const deleteProduct = id => {
+  increaseProduct = product => {
+    const newProduct = {
+      ...product,
+      quantity: product.quantity + 1,
+    };
+    dispatch(updateCart(newProduct));
+  };
+
+  decreaseProduct = product => {
+    const newProduct = {
+      ...product,
+      quantity: product.quantity - 1,
+    };
+    dispatch(updateCart(newProduct));
+  };
+
+  deleteProduct = id => {
+    console.log(id);
     dispatch(deleteProductFromCart(id));
   };
 
@@ -82,12 +99,12 @@ function CartView(props) {
                 </View>
                 <View style={productController}>
                   <View style={numberOfProduct}>
-                    <TouchableOpacity>
-                      <Text>+</Text>
+                    <TouchableOpacity onPress={() => increaseProduct(value)}>
+                      <Text style={{padding: 10}}>+</Text>
                     </TouchableOpacity>
-                    <Text>{1}</Text>
-                    <TouchableOpacity>
-                      <Text>-</Text>
+                    <Text style={{padding: 10}}>{value.quantity}</Text>
+                    <TouchableOpacity onPress={() => decreaseProduct(value)}>
+                      <Text style={{padding: 10}}> -</Text>
                     </TouchableOpacity>
                   </View>
                   <TouchableOpacity style={showDetailContainer}>

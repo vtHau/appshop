@@ -44,6 +44,13 @@ export const addCart = product => {
   };
 };
 
+export const updateCart = product => {
+  return {
+    type: 'UPDATE_CART',
+    payload: product,
+  };
+};
+
 export const deleteProductFromCart = id => {
   return {
     type: 'DELETE_PRODUCT_FROM_CART',
