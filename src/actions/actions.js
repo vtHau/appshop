@@ -134,3 +134,37 @@ export const updateToken = token => {
     payload: token,
   };
 };
+
+export const actChangeInfo = info => {
+  return async dispatch => {
+    const resp = await readStorage('signed');
+
+    if (resp !== null) {
+      const {token} = resp;
+      const {name, phone, address} = info;
+
+      CallAPI(
+        '/change_info.php',
+        'POST',
+        JSON.stringify({token, name, phone, address}),
+      )
+        .then(res => {
+          if (res.data !== 'TOKEN_KHONG_HOP_LE') {
+            dispatch(updateInfo(res.data));
+            return true;
+          }
+        })
+        .catch(() => {
+          return false;
+          console.log('error check login');
+        });
+    }
+  };
+};
+
+export const updateInfo = info => {
+  return {
+    type: 'UPDATE_INFO',
+    payload: info,
+  };
+};

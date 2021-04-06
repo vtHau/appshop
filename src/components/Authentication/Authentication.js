@@ -22,6 +22,9 @@ function Authentication(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const [emailLogin, setEmailLogin] = useState('');
+  const [passwordLogin, setPasswordLogin] = useState('');
+
   const dispatch = useDispatch();
 
   const signIn = () => {
@@ -41,14 +44,15 @@ function Authentication(props) {
       <View>
         <TextInput
           style={styles.inputStyle}
-          value={email}
-          onChangeText={email => setEmail(email)}
-          placeholder="Enter your email"
+          placeholder="Enter your name"
+          autoCapitalize="none"
+          value={emailLogin}
+          onChangeText={email => setEmailLogin(email)}
         />
         <TextInput
           style={styles.inputStyle}
-          value={password}
-          onChangeText={password => setPassword(password)}
+          value={passwordLogin}
+          onChangeText={password => setPasswordLogin(password)}
           placeholder="Enter your pass word"
         />
         <TouchableOpacity style={styles.signInNow} onPress={signInNow}>
@@ -102,7 +106,10 @@ function Authentication(props) {
   };
 
   const signInNow = () => {
-    const user = {email, password};
+    const user = {
+      email: emailLogin,
+      password: passwordLogin,
+    };
 
     CallAPI('/login.php', 'POST', user).then(res => {
       if (res.data !== 'SAI_THONG_TIN_DANG_NHAP') {

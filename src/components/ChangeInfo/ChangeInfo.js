@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   TouchableOpacity,
@@ -6,75 +6,101 @@ import {
   Image,
   StyleSheet,
   TextInput,
+  Alert,
 } from 'react-native';
+
+import {useSelector, useDispatch} from 'react-redux';
 import backSpecial from '../../media/appIcon/backs.png';
+import {actChangeInfo} from './../../actions/actions';
 
-export default class ChangeInfo extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      txtName: 'Nguyen Van Pho',
-      txtAddress: '92 Le Thi Rieng / Ben Thanh',
-      txtPhone: '01694472176',
+function ChangeInfo(props) {
+  const {user} = useSelector(state => state.authReducer);
+  const dispatch = useDispatch();
+
+  const {navigation} = props;
+
+  const [name, setName] = useState(user.name);
+  const [phone, setPhone] = useState(user.phone);
+  const [address, setAddress] = useState(user.address);
+
+  const changeInfo = () => {
+    const info = {
+      name,
+      phone,
+      address,
     };
-  }
-  goBackToMain() {
-    const {navigator} = this.props;
-    navigator.pop();
-  }
+    const change = dispatch(actChangeInfo(info));
+    if (change) {
+      changeInfoSuccess();
+    }
+  };
 
-  render() {
-    const {
-      wrapper,
-      header,
-      headerTitle,
-      backIconStyle,
-      body,
-      signInContainer,
-      signInTextStyle,
-      textInput,
-    } = styles;
-    const {name, address, phone} = this.state;
-    return (
-      <View style={wrapper}>
-        <View style={header}>
-          <View />
-          <Text style={headerTitle}>User Infomation</Text>
-          <TouchableOpacity onPress={this.goBackToMain.bind(this)}>
-            <Image source={backSpecial} style={backIconStyle} />
-          </TouchableOpacity>
-        </View>
-        <View style={body}>
-          <TextInput
-            style={textInput}
-            placeholder="Enter your name"
-            autoCapitalize="none"
-            value={name}
-            onChangeText={txtName => this.setState({...this.state, txtName})}
-          />
-          <TextInput
-            style={textInput}
-            placeholder="Enter your address"
-            autoCapitalize="none"
-            value={address}
-            onChangeText={txtAddress =>
-              this.setState({...this.state, txtAddress})
-            }
-          />
-          <TextInput
-            style={textInput}
-            placeholder="Enter your phone number"
-            autoCapitalize="none"
-            value={phone}
-            onChangeText={txtPhone => this.setState({...this.state, txtPhone})}
-          />
-          <TouchableOpacity style={signInContainer}>
-            <Text style={signInTextStyle}>CHANGE YOUR INFOMATION</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+  const changeInfoSuccess = () => {
+    Alert.alert(
+      'Thong bao',
+      'Thanh doi thong tin thanh cong',
+      [
+        {
+          text: 'OK',
+          onPress: () => navigation.pop(),
+        },
+      ],
+      {cancelable: false},
     );
-  }
+  };
+
+  const goBackToMain = () => {
+    navigation.pop();
+  };
+
+  const {
+    wrapper,
+    header,
+    headerTitle,
+    backIconStyle,
+    body,
+    signInContainer,
+    signInTextStyle,
+    textInput,
+  } = styles;
+
+  return (
+    <View style={wrapper}>
+      <View style={header}>
+        <View />
+        <Text style={headerTitle}>User Infomation</Text>
+        <TouchableOpacity onPress={() => goBackToMain()}>
+          <Image source={backSpecial} style={backIconStyle} />
+        </TouchableOpacity>
+      </View>
+      <View style={body}>
+        <TextInput
+          style={textInput}
+          placeholder="Enter your name"
+          autoCapitalize="none"
+          value={name}
+          onChangeText={name => setName(name)}
+        />
+        <TextInput
+          style={textInput}
+          placeholder="Enter your address"
+          autoCapitalize="none"
+          value={address}
+          onChangeText={address => setAddress(address)}
+        />
+        <TextInput
+          style={textInput}
+          placeholder="Enter your phone number"
+          autoCapitalize="none"
+          value={phone}
+          onChangeText={phone => setPhone(phone)}
+        />
+        <TouchableOpacity style={signInContainer} onPress={changeInfo}>
+          <Text style={signInTextStyle}>CHANGE YOUR INFOMATION</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -122,7 +148,9 @@ const styles = StyleSheet.create({
   },
 });
 
+export default ChangeInfo;
+
 // goBackToMain() {
-//     const { navigator } = this.props;
-//     navigator.pop();
+//     const { navigation } = this.props;
+//     navigation.pop();
 // }

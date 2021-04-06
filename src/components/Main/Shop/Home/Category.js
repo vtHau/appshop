@@ -40,17 +40,18 @@ function Category(props) {
       </View>
       <View style={{flex: 4, padding: 5}}>
         <Swiper autoplay autoplayTimeout={2.5}>
-          {cate.map((value, key) => (
-            <TouchableOpacity key={value.id} onPress={goListProduct}>
-              <ImageBackground
-                style={styles.image}
-                source={{
-                  uri: `${URLImgae}${value.image}`,
-                }}>
-                <Text style={styles.titleImage}>{value.name}</Text>
-              </ImageBackground>
-            </TouchableOpacity>
-          ))}
+          {cate.length !== 0 &&
+            cate.map((value, key) => (
+              <TouchableOpacity key={value.id} onPress={goListProduct}>
+                <ImageBackground
+                  style={styles.image}
+                  source={{
+                    uri: `${URLImgae}${value.image}`,
+                  }}>
+                  <Text style={styles.titleImage}>{value.name}</Text>
+                </ImageBackground>
+              </TouchableOpacity>
+            ))}
         </Swiper>
       </View>
     </View>
