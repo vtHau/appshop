@@ -4,10 +4,12 @@ import {StyleSheet, Text, TouchableOpacity, View, Image} from 'react-native';
 import {Drawer} from 'react-native-paper';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {useSelector, useDispatch} from 'react-redux';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {signOut} from './../../actions/actions';
 import profileIcon from '../../media/temp/profile.png';
 
 function Menu(props) {
+  const dispatch = useDispatch();
   const {navigation} = props;
 
   const {user, isLogin} = useSelector(state => state.authReducer);
@@ -26,6 +28,10 @@ function Menu(props) {
 
   const goOrderHistory = () => {
     navigation.push('OrderHistory');
+  };
+
+  const signOutNow = () => {
+    dispatch(signOut());
   };
 
   function Logout() {
@@ -68,9 +74,7 @@ function Menu(props) {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.btnStyleSigned}
-              onPress={() => {
-                navigation.navigate('OrderHistory');
-              }}>
+              onPress={signOutNow}>
               <Text style={styles.btnTextSigned}>Sign out</Text>
             </TouchableOpacity>
           </View>

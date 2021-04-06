@@ -1,5 +1,5 @@
 import writeStorage from './../utils/writeStorage';
-import readStorage from './../utils/readStorage';
+import removeStorage from './../utils/removeStorage';
 
 const initialState = {
   isLogin: false,
@@ -22,6 +22,18 @@ const authReducer = (state = initialState, action) => {
       state.user = user;
 
       writeStorage('signed', state);
+
+      return {
+        ...state,
+      };
+    }
+
+    case 'SIGN_OUT': {
+      state.isLogin = false;
+      state.token = '';
+      state.user = {};
+
+      removeStorage('signed');
 
       return {
         ...state,

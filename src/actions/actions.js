@@ -81,24 +81,28 @@ export const signed = data => {
   };
 };
 
-export const checkToken = () => {
-  return dispatch => {
-    readStorage('signed')
-      .then(resp => {
-        const {token} = resp;
+export const signOut = () => {
+  return {
+    type: 'SIGN_OUT',
+  };
+};
 
-        CallAPI('/check_login.php', 'POST', JSON.stringify({token}))
-          .then(res => {
-            if (res.data !== 'TOKEN_KHONG_HOP_LE') {
-              dispatch(signed(res.data));
-            }
-          })
-          .catch(() => {
-            console.log('error check login');
-          });
-      })
-      .catch(() => {
-        console.log('error get storage');
-      });
+export const checkToken = () => {
+  return async dispatch => {
+    const resp = await readStorage('signed');
+
+    if (resp !== null) {
+      const {token} = resp;
+
+      CallAPI('/check_login.php', 'POST', JSON.stringify({token}))
+        .then(res => {
+          if (res.data !== 'TOKEN_KHONG_HOP_LE') {
+            dispatch(signed(res.data));
+          }
+        })
+        .catch(() => {
+          console.log('error check login');
+        });
+    }
   };
 };
