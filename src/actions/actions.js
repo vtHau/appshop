@@ -106,3 +106,31 @@ export const checkToken = () => {
     }
   };
 };
+
+export const refreshToken = () => {
+  return async dispatch => {
+    const resp = await readStorage('signed');
+
+    if (resp !== null) {
+      const {token} = resp;
+      setInterval(() => {
+        CallAPI('/refresh_token.php', 'POST', JSON.stringify({token}))
+          .then(res => {
+            if (res.data !== 'TOKEN_KHONG_HOP_LE') {
+              dispatch(updateToken(res.data));
+            }
+          })
+          .catch(() => {
+            console.log('error check login');
+          });
+      }, 1 * 60 * 1000);
+    }
+  };
+};
+
+export const updateToken = token => {
+  return {
+    type: 'UPDATE_TOKEN',
+    payload: token,
+  };
+};

@@ -3,7 +3,7 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import Menu from './Menu';
 import Shop from './Shop/Shop';
-import {checkToken} from './../../actions/actions';
+import {checkToken, refreshToken} from './../../actions/actions';
 import {useDispatch, useSelector} from 'react-redux';
 
 const Drawer = createDrawerNavigator();
@@ -14,10 +14,10 @@ function Main(props) {
 
   useEffect(() => {
     dispatch(checkToken());
+    dispatch(refreshToken());
   }, [dispatch]);
 
   const goAuthentication = () => {
-    // navigation.navigate('Authentication');
     navigation.push('Authentication');
   };
 

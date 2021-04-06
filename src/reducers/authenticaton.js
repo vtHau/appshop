@@ -28,6 +28,15 @@ const authReducer = (state = initialState, action) => {
       };
     }
 
+    case 'UPDATE_TOKEN': {
+      state.token = action.payload;
+      writeStorage('signed', state);
+
+      return {
+        ...state,
+      };
+    }
+
     case 'SIGN_OUT': {
       state.isLogin = false;
       state.token = '';
