@@ -3,11 +3,14 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {StyleSheet, Text, TouchableOpacity, View, Image} from 'react-native';
 import {Drawer} from 'react-native-paper';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
+import {useSelector, useDispatch} from 'react-redux';
 
 import profileIcon from '../../media/temp/profile.png';
 
 function Menu(props) {
   const {navigation} = props;
+
+  const {user, isLogin} = useSelector(state => state.authReducer);
 
   const goBackMain = () => {
     navigation.pop();
@@ -47,7 +50,7 @@ function Menu(props) {
       <View style={styles.container}>
         <Image style={styles.profileImage} source={profileIcon} />
         <View style={{flex: 1, alignItems: 'center'}}>
-          <Text style={styles.profileName}>Vo Trung Hau</Text>
+          <Text style={styles.profileName}>{user.name}</Text>
           <View>
             <TouchableOpacity
               style={styles.btnStyleSigned}
@@ -75,8 +78,6 @@ function Menu(props) {
       </View>
     );
   }
-
-  const [isLogin, setIsLogin] = useState(false);
 
   return (
     <View style={{flex: 1, backgroundColor: '#34b089'}}>

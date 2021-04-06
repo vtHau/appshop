@@ -6,8 +6,8 @@ export default readStorage = async key => {
     if (dataStorage !== null) {
       return JSON.parse(dataStorage);
     }
-    return [];
+    return null;
   } catch (err) {
-    return [];
+    return null;
   }
 };

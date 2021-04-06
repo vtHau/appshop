@@ -32,7 +32,6 @@ export const fetchTopProduct = topProduct => {
 };
 
 export const fetchCartFromAsyncStorage = () => {
-  
   return dispatch => {
     readStorage('cart').then(res => {
       dispatch(fetchCart(res));
@@ -72,5 +71,34 @@ export const deleteProductFromCart = id => {
   return {
     type: 'DELETE_PRODUCT_FROM_CART',
     payload: id,
+  };
+};
+
+export const signed = data => {
+  return {
+    type: 'SIGNED',
+    payload: data,
+  };
+};
+
+export const checkToken = () => {
+  return dispatch => {
+    readStorage('signed')
+      .then(resp => {
+        const {token} = resp;
+
+        CallAPI('/check_login.php', 'POST', JSON.stringify({token}))
+          .then(res => {
+            if (res.data !== 'TOKEN_KHONG_HOP_LE') {
+              dispatch(signed(res.data));
+            }
+          })
+          .catch(() => {
+            console.log('error check login');
+          });
+      })
+      .catch(() => {
+        console.log('error get storage');
+      });
   };
 };

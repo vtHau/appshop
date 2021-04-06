@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,6 +12,8 @@ import {
 import icLogo from '../../media/appIcon/ic_logo.png';
 import icBack from '../../media/appIcon/back_white.png';
 import CallAPI from './../../utils/CallAPI';
+import {signed} from './../../actions/actions';
+import {useSelector, useDispatch} from 'react-redux';
 
 function Authentication(props) {
   const {navigation} = props;
@@ -19,6 +21,8 @@ function Authentication(props) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const dispatch = useDispatch();
 
   const signIn = () => {
     setIsAccount(true);
@@ -37,10 +41,17 @@ function Authentication(props) {
       <View>
         <TextInput
           style={styles.inputStyle}
-          placeholder="Nhap dia chi Email..."
+          value={email}
+          onChangeText={email => setEmail(email)}
+          placeholder="Enter your email"
         />
-        <TextInput style={styles.inputStyle} placeholder="Nhap mat khau..." />
-        <TouchableOpacity style={styles.signInNow}>
+        <TextInput
+          style={styles.inputStyle}
+          value={password}
+          onChangeText={password => setPassword(password)}
+          placeholder="Enter your pass word"
+        />
+        <TouchableOpacity style={styles.signInNow} onPress={signInNow}>
           <Text style={styles.textSignNow}>Sign In Now</Text>
         </TouchableOpacity>
       </View>
@@ -77,7 +88,7 @@ function Authentication(props) {
     );
   }
 
-  signUpNow = () => {
+  const signUpNow = () => {
     const user = {
       name,
       email,
@@ -90,21 +101,32 @@ function Authentication(props) {
     });
   };
 
-  signUpSuccess = () => {
+  const signInNow = () => {
+    const user = {email, password};
+
+    CallAPI('/login.php', 'POST', user).then(res => {
+      if (res.data !== 'SAI_THONG_TIN_DANG_NHAP') {
+        dispatch(signed(res.data));
+        navigation.pop();
+      }
+    });
+  };
+
+  const signUpSuccess = () => {
     Alert.alert(
       'Thong bao',
       'Dang ky thanh cong',
       [
         {
           text: 'OK',
-          onPress: () => console.log('ask me laster press'),
+          onPress: () => setIsAccount(false),
         },
       ],
       {cancelable: false},
     );
   };
 
-  signUpFail = () => {
+  const signUpFail = () => {
     Alert.alert(
       'Thong bao',
       'Email da duoc su dung',

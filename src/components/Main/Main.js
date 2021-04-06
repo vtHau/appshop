@@ -1,13 +1,20 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import Menu from './Menu';
 import Shop from './Shop/Shop';
+import {checkToken} from './../../actions/actions';
+import {useDispatch, useSelector} from 'react-redux';
 
 const Drawer = createDrawerNavigator();
 
 function Main(props) {
   const {navigation} = props;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkToken());
+  }, [dispatch]);
 
   const goAuthentication = () => {
     // navigation.navigate('Authentication');
