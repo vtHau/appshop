@@ -18,7 +18,8 @@ import Swiper from 'react-native-swiper';
 const {height, width} = Dimensions.get('window');
 const imageWidth = width - 50;
 const imageHeight = (imageWidth / 933) * 465;
-const URLImgae = Config.API_URL + Config.URL_IMAGE_CATE;
+const URLImage = Config.API_URL + Config.URL_IMAGE_CATE;
+
 function Category(props) {
   const {navigation} = props;
 
@@ -29,8 +30,8 @@ function Category(props) {
     dispatch(fetchCateRequest());
   }, [dispatch]);
 
-  const goListProduct = () => {
-    navigation.push('ListProduct');
+  const goListProduct = value => {
+    navigation.push('ListProduct', value);
   };
 
   return (
@@ -42,11 +43,13 @@ function Category(props) {
         <Swiper autoplay autoplayTimeout={2.5}>
           {cate.length !== 0 &&
             cate.map((value, key) => (
-              <TouchableOpacity key={value.id} onPress={goListProduct}>
+              <TouchableOpacity
+                key={value.id}
+                onPress={() => goListProduct(value)}>
                 <ImageBackground
                   style={styles.image}
                   source={{
-                    uri: `${URLImgae}${value.image}`,
+                    uri: `${URLImage}${value.image}`,
                   }}>
                   <Text style={styles.titleImage}>{value.name}</Text>
                 </ImageBackground>

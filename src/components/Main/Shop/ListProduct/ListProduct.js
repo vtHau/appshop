@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -6,42 +6,79 @@ import {
   StyleSheet,
   ScrollView,
   Image,
+  RefreshControl,
 } from 'react-native';
+import {useSelector, useDispatch, useReducer} from 'react-redux';
 
+import {fetchProductCateRequest} from './../../../../actions/actions';
 import backList from './../../../../media/appIcon/backList.png';
 import sp1 from './../../../../media/temp/sp1.jpeg';
-import sp2 from './../../../../media/temp/sp2.jpeg';
-import sp3 from './../../../../media/temp/sp3.jpeg';
-import sp4 from './../../../../media/temp/sp4.jpeg';
+
+function toTitleCase(str) {
+  return str.replace(
+    /\w\S*/g,
+    txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(),
+  );
+}
 
 function ListProduct(props) {
-  const {navigation} = props;
+  const {navigation, route} = props;
+  const product = route.params;
+  const [page, setPage] = useState(1);
+  const [refresh, setRefresh] = useState(false);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProductCateRequest(product.id, page));
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchProductCateRequest(product.id, page));
+  }, [page]);
+
+  const productCate = useSelector(
+    state => state.productCateReducer.productCate,
+  );
+
+  const onRefresh = () => {
+    setRefresh(true);
+    setPage(page + 1);
+    setRefresh(false);
+  };
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.wrapper}>
+      <ScrollView
+        style={styles.wrapper}
+        refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+        }>
         <View style={styles.header}>
           <TouchableOpacity onPress={() => navigation.pop()}>
             <Image style={styles.backStyle} source={backList} />
           </TouchableOpacity>
 
-          <Text style={styles.titleStyle}>Dien thoai</Text>
+          <Text style={styles.titleStyle}>{product.name}</Text>
           <View style={{width: 30}}></View>
         </View>
-        <View style={styles.productContainer}>
-          <Image style={styles.productImage} source={sp1} />
-          <View style={styles.productInfo}>
-            <Text style={styles.textName}>Colo Blueeeee</Text>
-            <Text style={styles.textPrice}>4124</Text>
-            <Text style={styles.textPrice}>4124</Text>
-            <View style={styles.lastRowInfo}>
-              <View />
-              <TouchableOpacity>
-                <Text style={styles.textDetail}>SHOW DETAILS</Text>
-              </TouchableOpacity>
+        {productCate.map((value, key) => (
+          <View key={key} style={styles.productContainer}>
+            <Image style={styles.productImage} source={sp1} />
+            <View style={styles.productInfo}>
+              <Text style={styles.textName}>{toTitleCase(value.name)}</Text>
+              <Text style={styles.textPrice}>{value.price}</Text>
+              <Text style={styles.textPrice}>{value.price}</Text>
+              <View style={styles.lastRowInfo}>
+                <View />
+                <TouchableOpacity
+                  onPress={() => navigation.push('ProductDetail', value)}>
+                  <Text style={styles.textDetail}>SHOW DETAILS</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
+        ))}
       </ScrollView>
     </View>
   );
@@ -116,11 +153,3 @@ const styles = StyleSheet.create({
 });
 
 export default ListProduct;
-{
-  /* <TouchableOpacity onPress={() => navigation.pop()}>
-        <Text>Back</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.push('ProductDetail')}>
-        <Text>Go Details</Text>
-      </TouchableOpacity> */
-}

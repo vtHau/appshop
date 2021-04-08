@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -8,18 +8,21 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
+
 import {useSelector, useDispatch} from 'react-redux';
 import {addCart} from './../../../../actions/actions';
+import * as Config from './../../../../Config/config';
 
 const back = require('../../../../media/appIcon/back.png');
 const cart = require('../../../../media/appIcon/cartfull.png');
 
-const urlImg = 'http://192.168.1.4/app/images/product/';
+const URLImage = Config.API_URL + Config.URL_IMAGE_PRODUCT;
+
 
 function ProductDetail(props) {
   const {navigation, route} = props;
-  const dispatch = useDispatch();
   const product = route.params;
+  const dispatch = useDispatch();
 
   const insertCart = () => {
     dispatch(addCart(product));
@@ -65,11 +68,11 @@ function ProductDetail(props) {
             style={{flexDirection: 'row', padding: 10, height: swiperHeight}}
             horizontal>
             <Image
-              source={{uri: `${urlImg}${product.images[0]}`}}
+              source={{uri: `${URLImage}${product.images[0]}`}}
               style={productImageStyle}
             />
             <Image
-              source={{uri: `${urlImg}${product.images[1]}`}}
+              source={{uri: `${URLImage}${product.images[1]}`}}
               style={productImageStyle}
             />
           </ScrollView>

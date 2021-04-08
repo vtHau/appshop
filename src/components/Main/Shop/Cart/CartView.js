@@ -59,7 +59,6 @@ function CartView(props) {
   };
 
   deleteProduct = id => {
-    console.log(id);
     dispatch(deleteProductFromCart(id));
   };
 

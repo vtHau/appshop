@@ -123,7 +123,7 @@ export const refreshToken = () => {
           .catch(() => {
             console.log('error check login');
           });
-      }, 1 * 60 * 1000);
+      }, 5000);
     }
   };
 };
@@ -166,5 +166,24 @@ export const updateInfo = info => {
   return {
     type: 'UPDATE_INFO',
     payload: info,
+  };
+};
+
+export const fetchProductCateRequest = (id, page) => {
+  return dispatch => {
+    CallAPI(
+      `/product_by_type.php?id_type=${id}&page=${page}`,
+      'GET',
+      null,
+    ).then(res => {
+      dispatch(initProductCate(res.data));
+    });
+  };
+};
+
+export const initProductCate = product => {
+  return {
+    type: 'INIT_PRODUCT_CATE',
+    payload: product,
   };
 };
