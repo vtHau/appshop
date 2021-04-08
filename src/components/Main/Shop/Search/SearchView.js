@@ -51,13 +51,13 @@ function SearchView(props) {
               style={productImage}
             />
             <View style={mainRight}>
-              <Text style={txtName}>{toTitleCase('black dress')}</Text>
-              <Text style={txtPrice}>100$</Text>
+              <Text style={txtName}>{toTitleCase(value.name)}</Text>
+              <Text style={txtPrice}>{value.price}$</Text>
               <Text style={txtMaterial}>Material Fur</Text>
               <View style={{flexDirection: 'row'}}>
-                <Text style={txtColor}>Color white</Text>
+                <Text style={txtColor}>{value.color}</Text>
                 <View style={{flexDirection: 'row'}}>
-                  <Text style={txtColor}>Color white</Text>
+                  <Text style={txtColor}>{value.color}</Text>
                   <View
                     style={{
                       height: 15,
