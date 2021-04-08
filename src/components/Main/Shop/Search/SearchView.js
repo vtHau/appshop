@@ -8,9 +8,9 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-
-import sp1 from '../../../../media/temp/sp3.jpeg';
-import sp4 from '../../../../media/temp/sp4.jpeg';
+import {useSelector} from 'react-redux';
+import * as Config from './../../../../Config/config';
+const URLImage = Config.API_URL + Config.URL_IMAGE_PRODUCT;
 
 function toTitleCase(str) {
   return str.replace(
@@ -21,6 +21,8 @@ function toTitleCase(str) {
 
 function SearchView(props) {
   const {navigation} = props;
+
+  const search = useSelector(state => state.searchReducer.search);
 
   const gotoDetail = () => {
     navigation.push('ProductDetail');
@@ -41,55 +43,38 @@ function SearchView(props) {
 
   return (
     <ScrollView style={wrapper}>
-      <View style={product}>
-        <Image source={sp1} style={productImage} />
-        <View style={mainRight}>
-          <Text style={txtName}>{toTitleCase('black dress')}</Text>
-          <Text style={txtPrice}>100$</Text>
-          <Text style={txtMaterial}>Material Fur</Text>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={txtColor}>Color white</Text>
-            <View
-              style={{
-                height: 15,
-                width: 15,
-                backgroundColor: 'white',
-                borderRadius: 15,
-                marginLeft: 10,
-              }}
+      {search.length !== 0 &&
+        search.map((value, key) => (
+          <View key={key} style={product}>
+            <Image
+              source={{uri: `${URLImage}${value.images[0]}`}}
+              style={productImage}
             />
-          </View>
-          <TouchableOpacity style={showDetailContainer}>
-            <Text style={txtShowDetail}>SHOW DETAILS</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={product}>
-        <Image source={sp4} style={productImage} />
-        <View style={mainRight}>
-          <Text style={txtName}>{toTitleCase('black dress')}</Text>
-          <Text style={txtPrice}>100$</Text>
-          <Text style={txtMaterial}>Material Fur</Text>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={txtColor}>Color white</Text>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={txtColor}>Color white</Text>
-              <View
-                style={{
-                  height: 15,
-                  width: 15,
-                  backgroundColor: 'white',
-                  borderRadius: 15,
-                  marginLeft: 10,
-                }}
-              />
+            <View style={mainRight}>
+              <Text style={txtName}>{toTitleCase('black dress')}</Text>
+              <Text style={txtPrice}>100$</Text>
+              <Text style={txtMaterial}>Material Fur</Text>
+              <View style={{flexDirection: 'row'}}>
+                <Text style={txtColor}>Color white</Text>
+                <View style={{flexDirection: 'row'}}>
+                  <Text style={txtColor}>Color white</Text>
+                  <View
+                    style={{
+                      height: 15,
+                      width: 15,
+                      backgroundColor: 'white',
+                      borderRadius: 15,
+                      marginLeft: 10,
+                    }}
+                  />
+                </View>
+              </View>
+              <TouchableOpacity style={showDetailContainer}>
+                <Text style={txtShowDetail}>SHOW DETAILS</Text>
+              </TouchableOpacity>
             </View>
           </View>
-          <TouchableOpacity style={showDetailContainer}>
-            <Text style={txtShowDetail}>SHOW DETAILS</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+        ))}
     </ScrollView>
   );
 }

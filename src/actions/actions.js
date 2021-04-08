@@ -187,3 +187,22 @@ export const initProductCate = product => {
     payload: product,
   };
 };
+
+export const searchRequest = keyword => {
+  return dispatch => {
+    CallAPI(`/search.php?key=${keyword}`, 'GET', null).then(res => {
+      if (typeof res.data === 'object') {
+        dispatch(addSearch(res.data));
+      } else {
+        dispatch(addSearch([]));
+      }
+    });
+  };
+};
+
+export const addSearch = product => {
+  return {
+    type: 'ADD_SEARCH',
+    payload: product,
+  };
+};

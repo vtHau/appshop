@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -9,13 +9,23 @@ import {
   StyleSheet,
 } from 'react-native';
 
+import {useSelector, useDispatch} from 'react-redux';
+
 import icLogo from '../../../media/appIcon/ic_logo.png';
 import icMenu from '../../../media/appIcon/ic_menu.png';
+import {searchRequest, resetSearch} from './../../../actions/actions';
 
 const {height} = Dimensions.get('window');
 
 function Header(props) {
   const {navigation} = props;
+  const dispatch = useDispatch();
+
+  const onSearch = keyword => {
+    if (keyword !== '') {
+      dispatch(searchRequest(keyword));
+    }
+  };
 
   return (
     <View style={styles.wrapper}>
@@ -26,7 +36,12 @@ function Header(props) {
         <Text style={styles.title}>Shopping</Text>
         <Image style={styles.icon} source={icLogo} />
       </View>
-      <TextInput style={styles.textInput} placeholder="Nhap de tim kiem..." />
+      <TextInput
+        style={styles.textInput}
+        onFocus={() => navigation.navigate('Search')}
+        onChangeText={keyword => onSearch(keyword)}
+        placeholder="Nhap de tim kiem..."
+      />
     </View>
   );
 }

@@ -4,6 +4,7 @@ import topProductReducer from './topProduct';
 import cartReducer from './cart';
 import authReducer from './authenticaton';
 import productCateReducer from './productCate';
+import searchReducer from './search';
 
 const rootReducer = combineReducers({
   cateReducer: cateReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   cartReducer: cartReducer,
   authReducer: authReducer,
   productCateReducer: productCateReducer,
+  searchReducer: searchReducer,
 });
 
 export default rootReducer;
