@@ -206,3 +206,30 @@ export const addSearch = product => {
     payload: product,
   };
 };
+
+export const fetchHistory = () => {
+  return async dispatch => {
+    const resp = await readStorage('signed');
+
+    if (resp !== null) {
+      const {token} = resp;
+
+      CallAPI('/order_history.php', 'POST', JSON.stringify({token}))
+        .then(res => {
+          if (res.data !== 'LOI') {
+            dispatch(initOrderHistory(res.data));
+          }
+        })
+        .catch(() => {
+          console.log('error check login');
+        });
+    }
+  };
+};
+
+export const initOrderHistory = history => {
+  return {
+    type: 'INIT_HISTORY',
+    payload: history,
+  };
+};
