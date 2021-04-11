@@ -233,3 +233,21 @@ export const initOrderHistory = history => {
     payload: history,
   };
 };
+
+export const sendOrder = arrayDetail => {
+  return async dispatch => {
+    const resp = await readStorage('signed');
+
+    if (resp !== null) {
+      const {token} = resp;
+
+      CallAPI('/cart.php', 'POST', JSON.stringify({token, arrayDetail}))
+        .then(res => {
+          console.log(res.data);
+        })
+        .catch(() => {
+          console.log('error check login');
+        });
+    }
+  };
+};

@@ -51,7 +51,8 @@ const authReducer = (state = initialState, action) => {
       state.token = '';
       state.user = {};
 
-      removeStorage('signed');
+      // removeStorage('signed');
+      writeStorage('signed', '');
 
       return {
         ...state,

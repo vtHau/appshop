@@ -17,6 +17,7 @@ import {
   fetchCartFromAsyncStorage,
   updateCart,
   deleteProductFromCart,
+  sendOrder,
 } from './../../../../actions/actions';
 
 import * as Config from './../../../../Config/config';
@@ -60,6 +61,14 @@ function CartView(props) {
 
   deleteProduct = id => {
     dispatch(deleteProductFromCart(id));
+  };
+
+  const onSendOrder = () => {
+    const arrayDetail = cart.map((value, key) => ({
+      id: value.id,
+      quantity: value.quantity,
+    }));
+    dispatch(sendOrder(arrayDetail));
   };
 
   const {
@@ -137,7 +146,7 @@ function CartView(props) {
             );
           })}
       </ScrollView>
-      <TouchableOpacity style={checkoutButton}>
+      <TouchableOpacity style={checkoutButton} onPress={onSendOrder}>
         <Text style={checkoutTitle}>TOTAL {total}$ CHECKOUT NOW</Text>
       </TouchableOpacity>
     </View>
